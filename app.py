@@ -1,12 +1,10 @@
 # Imports
-from asyncio import current_task
 
 from flask import Flask , render_template , request , redirect
-from flask_assets import Environment , Bundle
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import sass
-
+import os
 
 # APP
 app = Flask(__name__)
@@ -18,7 +16,9 @@ with open("static/scss/styles.scss" , "r") as file_in:
         file_out.write(css)
         file_out.close()
 
-app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:///database.db"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+db_path = os.path.join(BASE_DIR, 'database.db')
+app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
