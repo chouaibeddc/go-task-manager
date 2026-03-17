@@ -10,14 +10,18 @@ import os
 app = Flask(__name__)
 
 # Compiling SCSS To CSS
-with open("static/scss/styles.scss" , "r") as file_in:
-    with open("static/css/styles.css" , "w") as file_out:
-        css = sass.compile(string=file_in.read() , output_style='compressed')
-        file_out.write(css)
-        file_out.close()
-
+# Use absolute paths for file operations
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-db_path = os.path.join(BASE_DIR, 'database.db')
+scss_path = os.path.join(BASE_DIR, "static/scss/styles.scss")
+css_path = os.path.join(BASE_DIR, "static/css/styles.css")
+
+if os.path.exists(scss_path):
+    with open(scss_path, "r") as file_in:
+        css = sass.compile(string=file_in.read(), output_style='compressed')
+        with open(css_path, "w") as file_out:
+            file_out.write(css)
+
+db_path = os.path.join(BASE_DIR, 'instance/database.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
