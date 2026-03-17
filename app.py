@@ -3,7 +3,7 @@
 from flask import Flask , render_template , request , redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-import sass
+#import sass : For Dev
 import os
 
 # APP
@@ -12,6 +12,10 @@ app = Flask(__name__)
 # Compiling SCSS To CSS
 # Use absolute paths for file operations
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+"""
+#  This code snippet are not for production
+
 scss_path = os.path.join(BASE_DIR, "static/scss/styles.scss")
 css_path = os.path.join(BASE_DIR, "static/css/styles.css")
 
@@ -20,6 +24,8 @@ if os.path.exists(scss_path):
         css = sass.compile(string=file_in.read(), output_style='compressed')
         with open(css_path, "w") as file_out:
             file_out.write(css)
+            
+"""
 
 db_path = os.path.join(BASE_DIR, 'instance/database.db')
 app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{db_path}"
